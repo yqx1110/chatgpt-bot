@@ -28,10 +28,9 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 chat_model = "gpt-3.5-turbo"
 system_messages = [{"role": "system", "content": "You are a helpful assistant."}]
 
-mongo_host = os.getenv("MONGO_HOST")
-mongo_port = os.getenv("MONGO_PORT", 27017)
-mongo_username = urllib.parse.quote_plus(os.getenv("MONGO_INITDB_ROOT_USERNAME"))
-mongo_passwd = urllib.parse.quote_plus(os.getenv("MONGO_INITDB_ROOT_PASSWORD"))
+mongo_uri = "mongodb+srv://%s:%s@main.hrjuz74.mongodb.net/?retryWrites=true&w=majority"
+mongo_username = urllib.parse.quote_plus(os.getenv("MONGO_USERNAME"))
+mongo_passwd = urllib.parse.quote_plus(os.getenv("MONGO_PASSWORD"))
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -40,7 +39,7 @@ logging.basicConfig(
 
 app = Client("chatgpt-bot", tg_api_id, tg_api_hash, bot_token=bot_token)
 
-mongo_client = MongoClient("mongodb://%s:%s@%s:%s" % (mongo_username, mongo_passwd, mongo_host, mongo_port))
+mongo_client = MongoClient(mongo_uri % (mongo_username, mongo_passwd))
 db = mongo_client.get_database("chatgpt_bot")
 
 enabled_users = db.get_collection("users").find({"enabled": True}, ["_id"])

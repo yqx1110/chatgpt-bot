@@ -4,6 +4,8 @@ metadata:
   name: chatgpt-bot
   labels:
     app: chatgpt-bot
+  annotations:
+    operator.1password.io/inject: chatgpt-bot
 spec:
   selector:
     matchLabels:
@@ -16,3 +18,18 @@ spec:
       containers:
         - name: chatgpt-bot
           image: yqx1110/main:chatgpt-bot
+          env:
+            - name: TG_API_ID
+              value: op://DEV/TG_API_ID/credential
+            - name: TG_API_HASH
+              value: op://DEV/TG_API_HASH/credential
+            - name: TG_BOT_TOKEN_GPTCHATBOT
+              value: op://DEV/TG_BOT_TOKEN_GPTCHATBOT/credential
+            - name: OPENAI_ORGANIZATION
+              value: op://DEV/OPENAI_ORGANIZATION/credential
+            - name: OPENAI_API_KEY
+              value: op://DEV/OPENAI_API_KEY/credential
+            - name: MONGO_USERNAME
+              value: op://DEV/MONGO_USERNAME/credential
+            - name: MONGO_PASSWORD
+              value: op://DEV/MONGO_PASSWORD/credential
