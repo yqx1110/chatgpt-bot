@@ -129,9 +129,5 @@ def num_tokens_from_messages(messages, model=chat_model):
         tokens.""")
 
 
-def main():
-    app.run()
-
-
 if __name__ == '__main__':
-    main()
+    app.run()
