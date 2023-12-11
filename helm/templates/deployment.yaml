@@ -18,7 +18,14 @@ spec:
       containers:
         - name: chatgpt-bot
           image: yqx1110/main:chatgpt-bot
+          command: [ "python" ]
+          args: [ "src/main.py" ]
           env:
+            - name: OP_SERVICE_ACCOUNT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: service-account
+                  key: token
             - name: TG_API_ID
               value: op://DEV/TG_API_ID/credential
             - name: TG_API_HASH
