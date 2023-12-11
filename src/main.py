@@ -22,8 +22,10 @@ def is_admin(_, client: Client, message: Message):
 tg_api_id = os.getenv("TG_API_ID")
 tg_api_hash = os.getenv("TG_API_HASH")
 bot_token = os.getenv("TG_BOT_TOKEN_GPTCHATBOT")
+openai_api_key = os.getenv("OPENAI_API_KEY")
+openai_orgnization = os.getenv("OPENAI_ORGNIZATION")
 
-openai_client = OpenAI(os.getenv("OPENAI_API_KEY"))
+openai_client = OpenAI(api_key=openai_api_key, organization=openai_orgnization)
 chat_model = "gpt-3.5-turbo"
 system_messages = [{"role": "system", "content": "You are a helpful assistant."}]
 

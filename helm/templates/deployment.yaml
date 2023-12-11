@@ -18,6 +18,7 @@ spec:
       containers:
         - name: chatgpt-bot
           image: yqx1110/main:chatgpt-bot
+          imagePullPolicy: Always
           command: [ "python" ]
           args: [ "src/main.py" ]
           env:
