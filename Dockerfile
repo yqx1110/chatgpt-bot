@@ -1,4 +1,6 @@
-FROM python:3.9-alpine
+FROM python:3.9-slim
+
+RUN apt update && apt install gcc -y
 
 COPY / /app/chatgpt-bot
 
