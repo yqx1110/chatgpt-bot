@@ -26,7 +26,7 @@ openai_api_key = os.getenv("OPENAI_API_KEY")
 openai_orgnization = os.getenv("OPENAI_ORGNIZATION")
 
 openai_client = OpenAI(api_key=openai_api_key, organization=openai_orgnization)
-chat_model = "gpt-3.5-turbo"
+chat_model = "gpt-4"
 system_messages = [{"role": "system", "content": "You are a helpful assistant."}]
 
 mongo_uri = "mongodb+srv://%s:%s@main.hrjuz74.mongodb.net/?retryWrites=true&w=majority"
@@ -92,9 +92,9 @@ async def chat(client: Client, message: Message):
     user = db.get_collection("users").find_one({"_id": message.from_user.id})
     chat_entity = {"role": "user", "content": message.text}
     chat_history: list = user["chat_history"] + chat_entity if "chat_history" in user else [chat_entity]
-    response = openai_client.chat.completions.create(model=chat_model, messages=system_messages + chat_history)
-    response_message = response['choices'][0]['message']
-    await message.reply(response_message["content"])
+    completion = openai_client.chat.completions.create(model=chat_model, messages=system_messages + chat_history)
+    response_message = completion.choices[0].message
+    await message.reply(response_message.content)
     chat_history.append(response_message)
     while num_tokens_from_messages(chat_history) > 3000:
         chat_history.pop(0)
