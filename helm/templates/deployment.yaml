@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatgpt-bot
+  labels:
+    app: chatgpt-bot
+spec:
+  selector:
+    matchLabels:
+      app: chatgpt-bot
+  template:
+    metadata:
+      labels:
+        app: chatgpt-bot
+    spec:
+      containers:
+        - name: chatgpt-bot
+          image: yqx1110/main:chatgpt-bot
