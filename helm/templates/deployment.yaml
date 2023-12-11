@@ -11,7 +11,7 @@ spec:
   template:
     metadata:
       annotations:
-        operator.1password.io/inject: "chatgpt-bot"
+        operator.1password.io/inject: chatgpt-bot
       labels:
         app: chatgpt-bot
     spec:
