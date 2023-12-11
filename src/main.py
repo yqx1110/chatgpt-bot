@@ -1,10 +1,10 @@
 import json
 import os
 import logging
-import openai
 import tiktoken
 import urllib.parse
 
+from openai import OpenAI
 from pyrogram import Client, filters
 from pyrogram.enums import MessageEntityType
 from pyrogram.types import Message, Update
@@ -23,8 +23,7 @@ tg_api_id = os.getenv("TG_API_ID")
 tg_api_hash = os.getenv("TG_API_HASH")
 bot_token = os.getenv("TG_BOT_TOKEN_GPTCHATBOT")
 
-openai.organization = os.getenv("OPENAI_ORGANIZATION")
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai_client = OpenAI(os.getenv("OPENAI_API_KEY"))
 chat_model = "gpt-3.5-turbo"
 system_messages = [{"role": "system", "content": "You are a helpful assistant."}]
 
@@ -91,7 +90,7 @@ async def chat(client: Client, message: Message):
     user = db.get_collection("users").find_one({"_id": message.from_user.id})
     chat_entity = {"role": "user", "content": message.text}
     chat_history: list = user["chat_history"] + chat_entity if "chat_history" in user else [chat_entity]
-    response = openai.ChatCompletion.create(model=chat_model, messages=system_messages + chat_history)
+    response = openai_client.chat.completions.create(model=chat_model, messages=system_messages + chat_history)
     response_message = response['choices'][0]['message']
     await message.reply(response_message["content"])
     chat_history.append(response_message)
