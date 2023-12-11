@@ -4,14 +4,14 @@ metadata:
   name: chatgpt-bot
   labels:
     app: chatgpt-bot
-  annotations:
-    operator.1password.io/inject: chatgpt-bot
 spec:
   selector:
     matchLabels:
       app: chatgpt-bot
   template:
     metadata:
+      annotations:
+        operator.1password.io/inject: "chatgpt-bot"
       labels:
         app: chatgpt-bot
     spec:
